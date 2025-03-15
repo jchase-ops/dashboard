@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h3>{% block title %}Month{% endblock %}</h3>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+    <div class="month">
+        <ul>
+            <li class="prev">&#10094;</li>
+            <li class="next">&#10095;</li>
+            <li>{{ today.strftime('%B') }}<br><span style='font-size:18px'>{{ today.strftime('%Y') }}</span></li>
+        </ul>
+    </div>
+    <ul class="weekdays">
+        <li>Sun</li>
+        <li>Mon</li>
+        <li>Tue</li>
+        <li>Wed</li>
+        <li>Thu</li>
+        <li>Fri</li>
+        <li>Sat</li>
+    </ul>
+    <ul class="days">
+        {% for date in month_calendar %}
+            {% if date.month < today.month %}
+                <li class="calendar-day deep-orange darken-4"><span class="white-text" onclick="selectDay(event)">{{ date.day }}</span></li>
+            {% elif date.month > today.month %}
+                <li class="calendar-day light-blue darken-4"><span class="white-text" onclick="selectDay(event)">{{ date.day }}</span></li>
+            {% else %}
+                <li class="calendar-day"><span onclick="selectDay(event)">{{ date.day }}</span></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block fab %}{% endblock %}
