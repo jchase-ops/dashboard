@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h5 class="center-align">{% block title %}Blog{% endblock %}</h5>
+{% endblock %}
+
+{% block content %}
+<div id="main-content" class="container">
+    {% if posts is not none %}
+    {% for post in posts %}
+    <div class="row">
+        <div class="col s12">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">{{ post.title }}</span>
+                    <p>{{ post.body }}</p>
+                </div>
+                <div class="card-action">
+                    {% if g.user.id == post.author_id %}
+                    <a class="action" href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
+                    <a class="action" href="{{ url_for('blog.delete', id=post.id) }}">Delete</a>
+                    {% endif %}
+                    <span class="right">by {{ post.author_name }} on {{ post.created.strftime('%Y-%m-%d') }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+        {#<!--<article class="post">
+            <header>
+                <div>
+                    <h4>{{ post['title'] }}</h4>
+                    {% if g.user['id'] == post['author_id'] %}
+                        <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+                        <a class="action" href="{{ url_for('blog.delete', id=post['id']) }}">Delete</a>
+                    {% endif %}
+                    <div class="about">by {{ post.author_name }} on {{ post.created.strftime('%Y-%m-%d') }}</div>
+                </div>
+            </header>
+            <p class="body">{{ post['body'] }}</p>
+        </article>-->#}
+    {% if not loop.last %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <h3>There are no posts.</h3>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block fab %}
+    {% if g.user %}
+        <div class='fixed-action-btn'>
+            <a class='btn-floating btn-large-red click-to-toggle'><i class='large material-icons'>mode_edit</i></a>
+                <ul>
+                    <li><a class='btn-floating green darken-2' href="{{ url_for('blog.create') }}"><i class='material-icons'>add_circle</i></a></li>
+                    <!--<li><a class='btn-floating yellow darken-1' href="{{ url_for('blog.index') }}"><i class='material-icons'>edit</i></a></li>
+                    <li><a class='btn-floating orange accent-4' href="{{ url_for('blog.index') }}"><i class='material-icons'>delete_forever</i></a></li>-->
+                </ul>
+            </div>
+    {% endif %}
+{% endblock %}
