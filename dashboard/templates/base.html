@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<head>
+    <meta lang='en-us' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script type='text/javascript'
+        src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <title>{% block title %}{% endblock %} - HH Dashboard</title>
+</head>
+
+<body>
+    <main>
+    {% if g.user %}
+    <nav id='nav' class='indigo accent-2'>
+        <div id='nav-wrapper' class='nav-wrapper'>
+            <a href="{{ url_for('auth.logout') }}" class='left' style='padding-left: 20px;'>Logout</a>
+            <a href='#' class='brand-logo center'>Hyphen Hijack</a>
+            <a href='#' data-target='sidenav' class='sidenav-trigger show-on-large right'><i class='material-icons'>menu</i></a>
+        </div>
+    </nav>
+    <ul id='sidenav' class='sidenav'>
+        <li>
+            <ul class='collapsible collapsible-accordion'>
+                {#<!--<li><a href="#">Tasks<i class='material-icons'>view_list</i></a></li>
+                    <li><a href="{{ url_for('cooking.index') }}">Cooking<i class='material-icons'>restaurant</i></a></li>
+                    <li><a href="{{ url_for('shopping.index') }}">Shopping<i class='material-icons'>shopping_cart</i></a></li>
+                    <li><a href="{{ url_for('calendar.index') }}">Calendar<i class='material-icons'>today</i></a></li>
+                    <li><a href="{{ url_for('finances.index') }}">Finances<i class='material-icons'>monetization_on</i></a></li>
+                    <li><a href="{{ url_for('settings.index') }}">Settings<i class='material-icons'>settings</i></a></li>
+            -->#}
+            </ul>
+        </li>
+        <li><a href='#' class='sidenav-close'><i class='material-icons'>arrow_back</i>Close</a></li>
+    </ul>
+    <section class="content">
+        <header>
+            {% block header %}{% endblock %}
+        </header>
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </section>
+    {% block fab %}{% endblock %}
+    </main>
+    {% else %}
+        <nav id='nav' class='red accent-4'>
+            <div id='nav-wrapper' class='nav-wrapper'>
+                <a href='#!' class='brand-logo center'>Hyphen Hijack</a>
+                <ul class='right'>
+                    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">Log In</a></li> 
+                </ul>
+            </div>
+        </nav>
+        <section class="content">
+            <header>
+                {{ self.header() }}
+            </header>
+            {% for message in get_flashed_messages() %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+            {{ self.content() }}
+        </section>
+        </main>
+        <footer id='footer' class='page-footer'>
+            <div class='container'>
+                <div class='row'>
+                    <div class='col s4 m4 l4'>
+                        <a href='#!' class='grey-text text-lighten-4'><i class='material-icons'>help</i></a>
+                    </div>
+                    <div class='col s4 m4 l4'>
+                        &copy; Copyright 2025 <a href='https://github.com/jchase-ops'>Joshua Chase. All rights reserved.</a>
+                    </div>
+                    <div class='col s4 m4 l4'>
+                        <a href='#!' class='grey-text text-lighten-4 right'><i class='material-icons'>more</i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% endif %}
+</body>
+
+</html>
